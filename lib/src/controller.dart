@@ -208,7 +208,7 @@ class StatefulMapController {
   /// Display some geojson data on the map
   Future<void> fromGeoJson(String data,
       {bool verbose = false,
-      Widget Function(BuildContext, dynamic) markerIconBuilder = (BuildContext context, dynamic data) =>
+      Widget Function(BuildContext, dynamic) markerIconBuilder = const (BuildContext context, dynamic data) =>
           const Icon(Icons.location_on),
       bool noIsolate = false}) async {
     print("From geojson $data");
