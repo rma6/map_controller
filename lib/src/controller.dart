@@ -1,5 +1,5 @@
 import 'dart:async';
-
+import 'package:flutter/services.dart';
 import 'package:flutter/foundation.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_map/flutter_map.dart';
@@ -208,8 +208,7 @@ class StatefulMapController {
   /// Display some geojson data on the map
   Future<void> fromGeoJson(String data,
       {bool verbose = false,
-      Widget Function(BuildContext, dynamic) markerIconBuilder = const (BuildContext context, dynamic data) =>
-          const Icon(Icons.location_on),
+      @required Widget Function(BuildContext, Map<String, dynamic>) markerIconBuilder,
       bool noIsolate = false}) async {
     print("From geojson $data");
 
@@ -222,7 +221,7 @@ class StatefulMapController {
             name: point.name,
             marker: Marker(
                 point: LatLng(point.geoPoint.latitude, point.geoPoint.longitude),
-                builder: (BuildContext context) => markerIconBuilder(context, data)),
+                builder: (BuildContext context) => markerIconBuilder(context, feature.properties)),
           ));
           break;
         case GeoJsonFeatureType.multipoint:
@@ -232,7 +231,7 @@ class StatefulMapController {
               name: geoPoint.name,
               marker: Marker(
                   point: LatLng(geoPoint.latitude, geoPoint.longitude),
-                  builder: (BuildContext context) => markerIconBuilder(context, data)),
+                  builder: (BuildContext context) => markerIconBuilder(context, feature.properties)),
             ));
           }
           break;
