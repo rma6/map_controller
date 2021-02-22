@@ -235,7 +235,7 @@ class StatefulMapController {
   /// Display some geojson data on the map
   Future<void> fromGeoJson(String data,
       {bool verbose = false,
-      Icon markerIcon = const Icon(Icons.location_on),
+      Widget Function(BuildContext, dynamic)) markerIconBuilder = (BuildContext context, dynamic data) => const Icon(Icons.location_on),
       bool noIsolate = false}) async {
     print("From geojson $data");
 
@@ -249,7 +249,7 @@ class StatefulMapController {
             marker: Marker(
                 point:
                     LatLng(point.geoPoint.latitude, point.geoPoint.longitude),
-                builder: (BuildContext context) => markerIcon),
+                builder: (BuildContext context) => markerIconBuilder(context, data)),
           ));
           break;
         case GeoJsonFeatureType.multipoint:
@@ -259,7 +259,7 @@ class StatefulMapController {
               name: geoPoint.name,
               marker: Marker(
                   point: LatLng(geoPoint.latitude, geoPoint.longitude),
-                  builder: (BuildContext context) => markerIcon),
+                  builder: (BuildContext context) => markerIconBuilder(context, data)),
             ));
           }
           break;
